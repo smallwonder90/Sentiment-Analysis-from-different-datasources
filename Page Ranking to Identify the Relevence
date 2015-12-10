@@ -1,0 +1,38 @@
+private static void getFeeds(String newsFeedUrlLink){
+
+File f = new File(“newsFeeds.txt”);
+        boolean ok = false;
+            try {
+                URL feedUrl = new URL(newsFeedUrlLink);
+                SyndFeedInput input = new SyndFeedInput();
+                InputSource source = new InputSource(feedUrl.openStream());
+                SyndFeed feed = input.build(source);
+                for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {
+                   SyndEntry entry = (SyndEntry) i.next();
+		 writeToFile(f,entry);
+                       }
+                ok = true;
+
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("ERROR: "+ex.getMessage());
+
+            }
+        if (!ok) {
+            System.out.println();
+            System.out.println("FeedReader reads and prints any RSS/Atom feed type.");
+            System.out.println("The first parameter must be the URL of the feed to read.");
+            System.out.println();
+
+        }
+
+    }
+
+private static void writeToFile(File f, SyndEntry entry) throws IOException {
+		FileWriter fw = new FileWriter(f.getName(),true);
+		   BufferedWriter bw = new BufferedWriter(fw);
+		   bw.write(entry.getTitle()+”\n”);
+		   bw.close();
+
+	}
