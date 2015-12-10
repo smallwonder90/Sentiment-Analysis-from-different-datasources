@@ -1,0 +1,9 @@
+mydata <- readLines("newsFeeds.txt")
+myfile <-  hdfs.file("/tmp/govt_sentiment_data.txt", "r")
+dfserialized <- hdfs.read(myfile)
+df <- unserialize(dfserialized)
+hdfs.close(myfile)
+
+//write(mydata, file = "/tmp/govt_sentiment_data.txt",append = TRUE)
+hdfs.write(mydata, file = "/tmp/govt_sentiment_data.txt",append = TRUE)
+government_sentiment_data <- read.hdfs(“/tmp/govt_sentiment_data.txt”)
